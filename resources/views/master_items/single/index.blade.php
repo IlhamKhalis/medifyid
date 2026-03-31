@@ -13,9 +13,31 @@
                 <div class="card-body">
                     <table>
                         <tr>
+                            <th style="vertical-align: top;">Foto</th>
+                            <td style="vertical-align: top;">:</td>
+                            <td>
+                                @if($data->foto)
+                                    <img src="{{ asset('uploads/master_items/' . $data->foto) }}" alt="Foto {{ $data->nama }}" style="max-width: 250px; border-radius: 8px; margin-bottom: 10px;">
+                                @else
+                                    <span class="text-muted"><i>Tidak ada foto</i></span>
+                                @endif
+                            </td>
+                        </tr>
+                        <tr>
                             <th>Nama</th>
                             <td>:</td>
                             <td>{{$data->nama}}</td>
+                        </tr>
+                        <tr>
+                            <th>Kategori</th>
+                            <td>:</td>
+                            <td>
+                                @forelse($data->kategories as $cat)
+                                    <span class="badge bg-secondary">{{ $cat->nama }}</span>
+                                @empty
+                                    <span class="text-muted"><i>Belum ada kategori</i></span>
+                                @endforelse
+                            </td>
                         </tr>
                         <tr>
                             <th>Harga Beli</th>
@@ -36,11 +58,6 @@
                             <th>Supplier</th>
                             <td>:</td>
                             <td>{{$data->supplier}}</td>
-                        </tr>
-                        <tr>
-                            <th>Jenis</th>
-                            <td>:</td>
-                            <td>{{$data->jenis}}</td>
                         </tr>
                     </table>
                     <a class="btn btn-info" href="{{url('master-items/form/edit')}}/{{$data->id}}">Edit</a>

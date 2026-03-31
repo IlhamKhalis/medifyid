@@ -1,4 +1,4 @@
-<form method="POST">
+<form method="POST" enctype="multipart/form-data" action="{{ url('master-items/form/' . $method . ($method !== 'new' ? '/' . $item->id : '')) }}">
     @csrf
     @if($method == 'edit')
     <div class="form-group">
@@ -31,21 +31,37 @@
             <option @if($selected == 'Bukulapuk') selected @endif>Bukulapuk</option>
             <option @if($selected == 'TokoBagas') selected @endif>TokoBagas</option>
             <option @if($selected == 'E Commurz') selected @endif>E Commurz</option>
-            <optio @if($selected == 'Blublu') selected @endif>Blublu</option>
+            <option @if($selected == 'Blublu') selected @endif>Blublu</option>
         </select>
     </div>
 
-    @php $selected = $item->jenis ?? ''; @endphp
     <div class="form-group">
         <label>Jenis</label>
-        <select class="form-control" required name="jenis">
-            <option @if($selected == '') selected @endif value="">--Pilih--</option>
-            <option @if($selected == 'Obat') selected @endif>Obat</option>
-            <option @if($selected == 'Alkes') selected @endif>Alkes</option>
-            <option @if($selected == 'Matkes') selected @endif>Matkes</option>
-            <optio @if($selected == 'Umum') selected @endif>Umum</option>
-            <optio @if($selected == 'ATK') selected @endif>ATK</option>
+        <input type="text" name="jenis" class="form-control" required value="{{ old('jenis', $item->jenis ?? 'Umum') }}">
+        @error('jenis')
+            <div class="text-danger mt-1">{{ $message }}</div>
+        @enderror
+    </div>
+
+    <div class="form-group">
+        <label>Foto</label>
+        <input type="file" name="foto" class="form-control" accept="image/*">
+    </div>
+
+    @php
+        $selectedCategoryIds = old('categories', $item->kategories->pluck('id')->toArray());
+    @endphp
+    <div class="form-group">
+        <label>Kategori Item</label>
+        <select name="categories[]" class="form-control" multiple>
+            @foreach($categories as $cat)
+                <option value="{{ $cat->id }}" 
+                    {{ in_array($cat->id, $selectedCategoryIds) ? 'selected' : '' }}>
+                    {{ $cat->kode }} - {{ $cat->nama }}
+                </option>
+            @endforeach
         </select>
+        <small class="text-muted">Tahan tombol CTRL (Windows) atau CMD (Mac) untuk memilih lebih dari satu kategori.</small>
     </div>
 
     <button class="btn btn-primary mt-3">Submit</button>

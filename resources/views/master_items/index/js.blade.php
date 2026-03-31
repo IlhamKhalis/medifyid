@@ -40,23 +40,37 @@
                 var data = results.data
 
                 $.each(data, function(index, item) {
-                    array_temp = [];
-                    var harga_jual = item.harga_beli + item.harga_beli * item.laba / 100;
-                    harga_jual = Math.round(harga_jual)
-                    var kode = item.kode;
+                    var array_temp = [];
+                    var harga_jual = item.harga_beli + (item.harga_beli * item.laba / 100);
+                    harga_jual = Math.round(harga_jual);
 
-                    var html = `<a href="{{url('master-items/view/')}}/` + kode + `" class="btn btn-primary">View</a>`
+                    var html_view = `<a href="{{url('master-items/view/')}}/` + item.kode + `" class="btn btn-primary">View</a>`;
+                    
+                    var foto_html = item.foto 
+                        ? `<img src="{{ asset('uploads/master_items') }}/` + item.foto + `" alt="foto" style="width: 60px; height: 60px; object-fit: cover; border-radius: 5px;">` 
+                        : `<span class="text-muted">Tidak ada foto</span>`;
 
-                    $.each(item, function(obj_name, obj_value) {
-                        if (obj_name == 'laba') return false;
-                        array_temp.push(obj_value)
-                    })
-                    array_temp.push(harga_jual)
-                    array_temp.push(item.supplier)
-                    array_temp.push(html)
+                    var kategori_html = '';
+                    if(item.kategories && item.kategories.length > 0) {
+                        var cat_names = [];
+                        $.each(item.kategories, function(i, cat) {
+                            cat_names.push('<span class="badge bg-secondary">' + cat.nama + '</span>');
+                        });
+                        kategori_html = cat_names.join(' ');
+                    } else {
+                        kategori_html = '-';
+                    }
 
+                    array_temp.push(item.kode);
+                    array_temp.push(item.nama);
+                    array_temp.push(kategori_html);
+                    array_temp.push(item.harga_beli);
+                    array_temp.push(harga_jual);
+                    array_temp.push(item.supplier);
+                    array_temp.push(foto_html);
+                    array_temp.push(html_view);
 
-                    dataTableObj.row.add(array_temp).draw(true);
+                    dataTableObj.row.add(array_temp).draw(false);
                 });
                 $('#loading-filter').hide();
             },
