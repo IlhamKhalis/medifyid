@@ -4,10 +4,10 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-10">
+            <div class="form-group mb-2">
+                <a href="{{ url('categories/form/new') }}" class="btn btn-secondary btn-sm">+ Kategori Baru</a>
+            </div>
             <div class="card">
-                <div class="form-group mb-2">
-                    <a href="{{ url('categories/form/new') }}" class="btn btn-secondary btn-sm">+ Kategori Baru</a>
-                </div>
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <span>Daftar Kategori Items</span>
                 </div>

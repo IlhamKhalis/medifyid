@@ -77,7 +77,6 @@ class MasterItemsController extends Controller
             'harga_beli' => 'required|numeric|min:0',
             'laba' => 'required|numeric|min:0|max:100',
             'supplier' => 'nullable|string|max:255',
-            'jenis' => 'required|string|max:255',
             'categories' => 'nullable|array',
             'categories.*' => 'integer|exists:kategoris,id',
             'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -97,7 +96,6 @@ class MasterItemsController extends Controller
         $data_item->laba = $request->laba;
         $data_item->kode = $kode;
         $data_item->supplier = $request->supplier;
-        $data_item->jenis = $request->jenis;
 
         if ($request->hasFile('foto')) {
             $file = $request->file('foto');

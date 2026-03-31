@@ -36,14 +36,6 @@
     </div>
 
     <div class="form-group">
-        <label>Jenis</label>
-        <input type="text" name="jenis" class="form-control" required value="{{ old('jenis', $item->jenis ?? 'Umum') }}">
-        @error('jenis')
-            <div class="text-danger mt-1">{{ $message }}</div>
-        @enderror
-    </div>
-
-    <div class="form-group">
         <label>Foto</label>
         <input type="file" name="foto" class="form-control" accept="image/*">
     </div>
